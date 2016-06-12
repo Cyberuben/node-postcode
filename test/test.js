@@ -108,7 +108,6 @@ describe("Postcode.nl API wrapper", () => {
 						addressDetails.should.be.an("object");
 					})
 					.catch((err) => {
-						console.log(err);
 						assert(err === undefined, "Bad credentials supplied in environment variables");
 						done();
 					});
