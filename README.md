@@ -1,4 +1,4 @@
-# node-postcode
+# node-postcode [![Build Status](https://travis-ci.org/Cyberuben/node-postcode.svg?branch=master)](https://travis-ci.org/Cyberuben/node-postcode)
 API wrapper for the Postcode.nl API. 
 
 Features:
