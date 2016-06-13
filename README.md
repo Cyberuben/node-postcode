@@ -92,3 +92,13 @@ The client exposing the `address` and `signal` functions
   Returns a `Promise`. When successful, `.then(function (addressDetails) {})` is returned. The format and explanation of the returned data can be found [at the official documentation](https://api.postcode.nl/documentation/address-api) of the API. When an error occurs, `.catch(function (err) {})` contains the error given. When `err.code == "PostcodeNl_Service_PostcodeAddress_AddressNotFoundException"`, the `postcode` and `number` supplied do not resolve to an address. 
 
   When `numberAddition` is supplied, but `houseNumberAddition` is an empty string, the `numberAddition` can not be verified, but this does not mean that mail sent to this address will not be accepted.
+  
+# Tests
+
+To run the tests created for this plugin, run the following command:
+
+```
+$ npm test
+```
+
+To make sure all tests succeed, make sure that you set the environment variables `API_KEY` and `API_SECRET` to their correct values. Errors will be thrown if the credentials are not valid
