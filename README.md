@@ -1,4 +1,4 @@
-# node-postcode
+# node-postcode [![Build Status](https://travis-ci.org/Cyberuben/node-postcode.svg?branch=master)](https://travis-ci.org/Cyberuben/node-postcode)
 API wrapper for the Postcode.nl API. 
 
 Features:
@@ -8,7 +8,7 @@ Features:
 
 # Example
 
-```
+```javascript
 var Postcode = require("node-postcode").Postcode;
 var client = new Postcode({
   key: /* your API key */,
@@ -23,7 +23,7 @@ client.address("1111AA", 1)
 
 # Installation
 
-```
+```bash
 $ npm i node-postcode
 ```
 
@@ -41,7 +41,7 @@ The client exposing the `address` and `signal` functions
 
 - **Example**
 
-  ```
+  ```javascript
   new PostcodeClient({
     key: "YOUR_KEY",
     secret: "YOUR_SECRET"
@@ -59,7 +59,7 @@ The client exposing the `address` and `signal` functions
 
 - **Example**
   
-  ```
+  ```javascript
   client.address("1111AA", 1)
   .then(function (addressDetails) {
     /* 
