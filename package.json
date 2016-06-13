@@ -1,6 +1,6 @@
 {
   "name": "node-postcode",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "API wrapper for the Postcode.nl APIs",
   "main": "lib/postcode.js",
   "scripts": {
