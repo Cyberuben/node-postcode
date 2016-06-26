@@ -1,6 +1,6 @@
 {
   "name": "node-postcode",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "API wrapper for the Postcode.nl APIs",
   "main": "lib/postcode.js",
   "scripts": {
@@ -17,6 +17,11 @@
   "bugs": {
     "url": "https://github.com/Cyberuben/node-postcode/issues"
   },
+  "keywords": [
+    "postcode",
+    "postcode.nl",
+    "address"
+  ],
   "homepage": "https://github.com/Cyberuben/node-postcode#readme",
   "devDependencies": {
     "babel-cli": "^6.10.1",

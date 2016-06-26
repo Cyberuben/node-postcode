@@ -4,7 +4,6 @@ API wrapper for the Postcode.nl API.
 Features:
 - gathering addresses using postcode, house number and house number addition
 - verifying address data
-- processing iDEAL payments
 
 # Example
 

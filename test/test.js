@@ -7,9 +7,8 @@ const API_SECRET = process.env.API_SECRET;
 
 chai.should();
 
-let postcode 			= require("../lib/postcode");
-let PostcodeClient 		= postcode.Postcode;
-let PostcodeiDEALClient	= postcode.iDEAL;
+let PostcodeClient		= require("../lib/postcode");
+let JSONRequest			= require("../lib/request");
 
 describe("Postcode.nl API wrapper", () => {
 	describe("PostcodeClient", () => {
@@ -34,6 +33,12 @@ describe("Postcode.nl API wrapper", () => {
 				(() => {
 					new PostcodeClient({key: "test", secret: "test"});
 				}).should.not.throw(TypeError);
+			});
+
+			it("should have an instance of JSONRequest and options", () => {
+				var client = new PostcodeClient({key: "test", secret: "test"});
+				client._r.should.be.instanceof(JSONRequest);
+				client._options.should.be.an("object");
 			});
 		});
 
@@ -111,9 +116,51 @@ describe("Postcode.nl API wrapper", () => {
 					});
 			});
 		});
-	});
 
-	describe("class PostcodeiDEALClient", () => {
+		describe("#signal()", () => {
+			expect(API_KEY).to.be.ok;
+			expect(API_SECRET).to.be.ok;
 
+			var client = new PostcodeClient({
+				key: API_KEY,
+				secret: API_SECRET
+			});
+
+			it("should error on empty / invalid options object", () => {
+				(() => {
+					client.signal();
+				}).should.throw(TypeError);
+
+				(() => {
+					client.signal({});
+				}).should.throw(TypeError);
+			});
+
+			it("should return a promise on 'valid' options object", () => {
+				client.signal({
+					test: "test"
+				}).should.be.instanceof(Promise);
+			});
+
+			it("should be able to generate a response", () => {
+				return client.signal({
+						transaction: {
+							deliveryAddress: {
+								postcode: "1111AA",
+								houseNumber: 1,
+								country: "NL"
+							}
+						}
+					})
+					.then((signalDetails) => {
+						signalDetails.should.be.an("object");
+						signalDetails.checkId.should.be.a("string");
+					})
+					.catch((err) => {
+						assert(err === undefined, "Error calling the API: "+err.message);
+						done();
+					});
+			});
+		});
 	});
 });

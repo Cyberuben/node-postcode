@@ -1,90 +1,10 @@
-var https = require("https");
-
-class JSONRequest {
-	constructor(options) {
-		this._options = options;
-	}
-
-	_requestOptions(method, path, headers, encoding) {
-		if(!headers) {
-			headers = {
-				"Content-Type": "application/json"
-			};
-		}
-
-		if(!encoding) {
-			encoding = "utf8";
-		}
-
-		return {
-			method, headers, encoding,
-			protocol: "https:",
-			hostname: "api.postcode.nl",
-			path: "/rest" + path,
-			auth: this._options.key+":"+this._options.secret
-		}
-	}
-
-	_parseJsonResponse(response) {
-		return new Promise((resolve, reject) => {
-			const strings = [];
-
-			response.on("data", (chunk) => {
-				strings.push(chunk);
-			});
-
-			response.on("end", () => {
-				try {
-					const string = strings.join("");
-					if(response.statusCode === 200) {
-						resolve(JSON.parse(string));
-					}else if(response.statusCode === 401) {
-						reject(Object.assign(new Error("Invalid credentials for call"), {
-							statusCode: response.statusCode,
-							headers: response.headers
-						}));
-					}else{
-						var json;
-						var error = "Request returned HTTP code "+response.statusCode;
-						try {
-							json = JSON.parse(string);
-							if(json && json.exception) {
-								error = json.exception;
-							}
-						} catch (err) {
-
-						}
-						reject(Object.assign(new Error(error), {
-							string, json,
-							statusCode: response.statusCode,
-							headers: response.headers
-						}));
-					}
-				} catch (err) {
-					reject(err);
-				}
-			});
-
-			response.on("error", reject);
-		});
-	}
-
-	get(path) {
-		return new Promise((resolve, reject) => {
-			const opts = this._requestOptions("GET", path);
-			const request = https.request(opts, res => {
-				resolve(this._parseJsonResponse(res));
-			});
-			request.on("error", reject);
-			request.end();
-		});
-	}
-};
+const JSONRequest = require("./request");
 
 class PostcodeClient {
 	constructor (options) {
-		if(!options.hasOwnProperty("key")) throw new TypeError("'options.key' has to be set");
-		if(!options.hasOwnProperty("secret")) throw new TypeError("'options.secret' has to be set");
+		if(!options) throw new TypeError("'options' has to be set");
+		if(!options.key) throw new TypeError("'options.key' has to be set");
+		if(!options.secret) throw new TypeError("'options.secret' has to be set");
 
 		this._options = options;
 
@@ -138,15 +58,26 @@ class PostcodeClient {
 			});
 		});
 	}
+
+	signal(options) {
+		if(!options || typeof options != "object") throw new TypeError("'options' is required and should be an object");
+		if(Object.keys(options).length == 0) throw new TypeError("'options' must have at least one option");
+
+		return new Promise((resolve, reject) => {
+			this._r.post("/signal/check", options)
+			.then((res) => {
+				resolve(res);
+			})
+			.catch((err) => {
+				if(err.statusCode === 400) {
+					err.code = err.json.exceptionId;
+					reject(err);
+				}else{
+					reject(error);
+				}
+			});
+		});
+	}
 };
 
-class iDEAL {
-
-};
-
-class PostcodeiDEALClient {
-
-};
-
-module.exports.Postcode = PostcodeClient;
-module.exports.iDEAL = PostcodeiDEALClient;
+module.exports = PostcodeClient;
