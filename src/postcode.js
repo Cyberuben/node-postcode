@@ -14,7 +14,7 @@ class PostcodeClient {
 	address(postcode, number, numberAddition) {
 		//Check if the postcode is set
 		if(!postcode) throw new TypeError("'postcode' is required");
-		
+
 		// Rewrite the format to 1234AA (no space, capitalized)
 		postcode = postcode.replace(/\s/g, "").toUpperCase();
 
@@ -73,7 +73,7 @@ class PostcodeClient {
 					err.code = err.json.exceptionId;
 					reject(err);
 				}else{
-					reject(error);
+					reject(err);
 				}
 			});
 		});
