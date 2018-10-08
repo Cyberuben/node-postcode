@@ -51,7 +51,7 @@ class JSONRequest {
 								error = json.exception;
 							}
 						} catch (err) {
-
+                            reject(err)
 						}
 						reject(Object.assign(new Error(error), {
 							string, json,
