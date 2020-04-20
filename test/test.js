@@ -92,10 +92,10 @@ describe("Postcode.nl API wrapper", () => {
 			});
 
 			it("should be able to start requesting the address", () => {
-                var client = new PostcodeClient({
-    				key: API_KEY,
-    				secret: API_SECRET
-    			});
+					var client = new PostcodeClient({
+						key: API_KEY,
+						secret: API_SECRET
+					});
 
 				(() => {
 					client.address("1111AA", 1);
