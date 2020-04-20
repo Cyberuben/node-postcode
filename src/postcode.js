@@ -73,7 +73,7 @@ class PostcodeClient {
 					err.code = err.json.exceptionId;
 					reject(err);
 				}else{
-					reject(error);
+					reject(err);
 				}
 			});
 		});

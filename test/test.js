@@ -92,12 +92,17 @@ describe("Postcode.nl API wrapper", () => {
 			});
 
 			it("should be able to start requesting the address", () => {
+					var client = new PostcodeClient({
+						key: API_KEY,
+						secret: API_SECRET
+					});
+
 				(() => {
 					client.address("1111AA", 1);
 				}).should.not.throw(TypeError);
 			});
 
-			it("should be able to return valid address info", () => {
+			it("should be able to return valid address info", (done) => {
 				expect(API_KEY).to.be.ok;
 				expect(API_SECRET).to.be.ok;
 
@@ -142,7 +147,7 @@ describe("Postcode.nl API wrapper", () => {
 				}).should.be.instanceof(Promise);
 			});
 
-			it("should be able to generate a response", () => {
+			it("should be able to generate a response", (done) => {
 				return client.signal({
 						transaction: {
 							deliveryAddress: {
